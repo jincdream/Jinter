@@ -1,4 +1,5 @@
 const kleur = require('kleur')
+// @ts-ignore
 const prompts = require('prompts')
 const sh = require('shelljs')
 const sortObjectByKeyNameList = require('sort-object-keys')
@@ -347,6 +348,7 @@ function createQuestions(config) {
       type: 'text',
       name: 'libraryName',
       message: 'What do you want the library to be called? (use kebab-case)',
+      // @ts-ignore
       validate: (value) =>
         isKebabCase(value) ||
         `"kebab-case" uses lowercase letters, and hyphens for any punctuation`,
@@ -359,11 +361,14 @@ function createQuestions(config) {
       initial: /**@type any */ (false)
     },
     {
+      // @ts-ignore
       type: /** @type {import('prompts').ValueOrFunc<import('prompts').PromptType>} */ ((
+        // @ts-ignore
         prev
       ) => (prev === true ? 'text' : null)),
       name: 'scope',
       message: 'Scope/namespace (needs to start with @)',
+      // @ts-ignore
       validate: (value) =>
         isValidScopeName(value) ||
         `namespace needs to start with @ followed by kebab-case`,
@@ -393,6 +398,7 @@ function createQuestions(config) {
       name: 'username',
       message: 'Your name',
       initial: config.username,
+      // @ts-ignore
       validate: (value) =>
         isTextRequired(value) || `Please provide your name and surname`,
     },
@@ -401,12 +407,14 @@ function createQuestions(config) {
       name: 'usermail',
       message: 'Your email',
       initial: config.usermail,
+      // @ts-ignore
       validate: (value) => isEmail(value) || `Please provide valid email`,
     },
     {
       type: 'text',
       name: 'githubName',
       message: 'Your github account name',
+      // @ts-ignore
       validate: (value) =>
         isTextRequired(value) || `Please provide valid github username`,
     },
@@ -419,6 +427,7 @@ function createQuestions(config) {
  * @param {any} answers
  * @returns {void | boolean}
  */
+// @ts-ignore
 function handlePromptExit(prompt, answers) {
   error(
     kleur
