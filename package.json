@@ -1,8 +1,14 @@
 {
-  "name": "",
-  "version": "0.0.1",
+  "name": "jinter",
+  "version": "0.1.0",
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "post",
+    "get",
+    "onPost",
+    "onGet",
+    "jinter"
+  ],
   "main": "./bundles/index.umd.js",
   "module": "./esm5/index.js",
   "es2015": "./esm2015/index.js",
@@ -83,6 +89,7 @@
     "@types/lodash.clonedeepwith": "4.5.6",
     "@types/node": "8.10.*",
     "@types/prettier": "1.15.2",
+    "@types/prompts": "^2.0.5",
     "@types/webpack-config-utils": "2.3.0",
     "brotli-size": "0.0.3",
     "commitizen": "3.0.5",
