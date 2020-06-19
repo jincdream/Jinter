@@ -16,13 +16,9 @@ describe(`Greeter`, () => {
       data: { a: 123 },
     })
 
-    // 断言mockFn的执行后返回undefined
     expect(fnRz).toBeUndefined()
-    // 断言mockFn被调用
     expect(mockFn).toBeCalled()
-    // 断言mockFn被调用了一次
     expect(mockFn).toBeCalledTimes(1)
-    // 断言mockFn传入的参数
     expect(mockFn).toHaveBeenCalledWith({ a: 123 })
     expect(result).toEqual({ a: 123 })
   })
@@ -38,13 +34,9 @@ describe(`Greeter`, () => {
       server: ID,
       body: { a: 123 },
     })
-    // 断言mockFn的执行后返回undefined
     expect(result).toBeUndefined()
-    // 断言mockFn被调用
     expect(mockFn).toBeCalled()
-    // 断言mockFn被调用了一次
     expect(mockFn).toBeCalledTimes(1)
-    // 断言mockFn传入的参数为
     expect(mockFn).toHaveBeenCalledWith({ a: 123 })
   })
 
@@ -75,21 +67,16 @@ describe(`Greeter`, () => {
     let { POSTResult, GETResult } = await trigger()
 
     expect(GETResult).toEqual({ a: 123 })
-    // 断言mockFn的执行后返回undefined
     expect(POSTResult).toBeUndefined()
-    // 断言mockFn被调用
     expect(mockFnGet).toBeCalled()
     expect(mockFnPost).toBeCalled()
-    // 断言mockFn被调用了n次
     expect(mockFnGet).toBeCalledTimes(1)
     expect(mockFnPost).toBeCalledTimes(1)
-    // 断言mockFn传入的参数为
     expect(mockFnGet).toHaveBeenCalledWith({ a: 123 })
     expect(mockFnPost).toHaveBeenCalledWith({ a: 123 })
 
     server.remove('get', '/test')
     await trigger()
-    // 断言mockFn被调用了n次
     expect(mockFnGet).toBeCalledTimes(1)
     expect(mockFnPost).toBeCalledTimes(2)
 
@@ -128,7 +115,6 @@ describe(`Greeter`, () => {
 
     expect(POSTResult).toBeUndefined()
     expect(GETResult).toBeUndefined()
-    // 断言mockFn被调用了n次
     expect(mockFnGet).toBeCalledTimes(0)
     expect(mockFnPost).toBeCalledTimes(0)
   })
@@ -167,7 +153,6 @@ describe(`Greeter`, () => {
 
     expect(POSTResult).toBeUndefined()
     expect(GETResult).toBeUndefined()
-    // 断言mockFn被调用了n次
     expect(mockFnGet).toBeCalledTimes(0)
     expect(mockFnPost).toBeCalledTimes(0)
   })
@@ -201,22 +186,16 @@ describe(`Greeter`, () => {
     let { POSTResult, GETResult } = await trigger()
 
     expect(GETResult).toEqual({ a: 123 })
-    // 断言mockFn的执行后返回undefined
     expect(POSTResult).toBeUndefined()
-    // 断言mockFn被调用
     expect(mockFnGet).toBeCalled()
     expect(mockFnPost).toBeCalled()
-    // 断言mockFn被调用了n次
     expect(mockFnGet).toBeCalledTimes(1)
     expect(mockFnPost).toBeCalledTimes(1)
-    // 断言mockFn传入的参数为
     expect(mockFnGet).toHaveBeenCalledWith({ a: 123 })
     expect(mockFnPost).toHaveBeenCalledWith({ a: 123 })
 
     server.off(getID)
     await trigger()
-    // 断言mockFn被调用了n次
-    // 断言mockFn被调用了n次
     expect(mockFnGet).toBeCalledTimes(1)
     expect(mockFnPost).toBeCalledTimes(2)
 
@@ -225,5 +204,55 @@ describe(`Greeter`, () => {
     await trigger()
     expect(mockFnGet).toBeCalledTimes(1)
     expect(mockFnPost).toBeCalledTimes(2)
+  })
+
+  it(`two server`, async () => {
+    const mockFn = jest.fn()
+    const mockFn2 = jest.fn()
+    const ID = 'aw1dw'
+    const server = new Server(ID)
+    const server2 = new Server(ID+ID)
+    const client = new Client()
+    const client2 = new Client(ID)
+
+    server.onGet({ path: '/test' }, async (data) => {
+      mockFn(data)
+      return data
+    })
+
+    server2.onGet({ path: '/test/server2' }, async (data) => {
+      mockFn2(data)
+      return data
+    })
+
+    let result = await client.get({
+      path: '/test',
+      server: ID,
+      data: { a: 123 },
+    })
+
+    expect(mockFn).toBeCalled()
+    expect(mockFn).toBeCalledTimes(1)
+    expect(mockFn).toHaveBeenCalledWith({ a: 123 })
+    expect(result).toEqual({ a: 123 })
+
+    let result2 = await client.get({
+      path: '/test/server2',
+      server: ID+ID,
+      data: { a: 222 },
+    })
+
+    expect(mockFn2).toBeCalled()
+    expect(mockFn2).toBeCalledTimes(1)
+    expect(mockFn2).toHaveBeenCalledWith({ a: 222 })
+    expect(result2).toEqual({ a: 222 })
+
+    let result3 = await client2.get({
+      path: "/test",
+      data: { a: 333 },
+    })
+    expect(mockFn).toBeCalledTimes(2)
+    expect(mockFn).toHaveBeenCalledWith({ a: 333 })
+    expect(result3).toEqual({ a: 333 })
   })
 })

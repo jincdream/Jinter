@@ -25,15 +25,17 @@ const Servers: {
 )
 
 export class Client {
-  id: string
+  id?: string
   emitter: any
-  ServerE: EventEmitter | undefined
-  ClientE: EventEmitter | undefined
-  constructor(id: string) {
+  ServerE?: EventEmitter
+  ClientE?: EventEmitter
+  constructor(id?: string) {
     this.id = id
-    let emt = Servers[id]
-    this.ServerE = emt.ServerE
-    this.ClientE = emt.ClientE
+    if (id) {
+      let emt = Servers[id]
+      this.ServerE = emt.ServerE
+      this.ClientE = emt.ClientE
+    }
   }
   use<T = any>(emitter: () => Promise<T> | any) {
     this.emitter = emitter
@@ -44,35 +46,43 @@ export class Client {
     path,
     data,
   }: {
-    server: string
+    server?: string
     path: string
     data: D
   }) {
-    return await this.run<T, D>(server, path, data, 'get')
+    return await this.run<T, D>(path, data, 'get', server)
   }
   async post<T = any, D = any>({
     server,
     path,
     body,
   }: {
-    server: string
+    server?: string
     path: string
     body: D
   }) {
-    return await this.run<T, D>(server, path, body, 'post')
+    return await this.run<T, D>(path, body, 'post', server)
   }
-  async run<T, D>(
-    server: string,
+  private async run<T, D>(
     path: string,
     data: D,
-    type: 'get' | 'post'
+    type: 'get' | 'post',
+    server?: string
   ): Promise<T> {
     let { emitter, ServerE, ClientE } = this
     if (emitter) {
       this.emitter = void 0
       return emitter(data)
     }
+
     return await new Promise((res) => {
+      if (server) {
+        let emt = Servers[server]
+        ServerE = emt.ServerE
+        ClientE = emt.ClientE
+      } else {
+        server = this.id
+      }
       if (!ServerE || !ClientE) return res()
       let serverEvName = `${type}+${server}+${path}`
       let hasServer =
