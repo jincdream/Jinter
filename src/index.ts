@@ -1,16 +1,39 @@
 import EventEmitter from 'eventemitter3'
 
-const ServerE = new EventEmitter()
-const ClientE = new EventEmitter()
 const Servers: {
-  [key: string]: boolean
-} = {}
+  [key: string]: {
+    ServerE: EventEmitter
+    ClientE: EventEmitter
+  }
+} = new Proxy(
+  {},
+  {
+    get: function(obj: any, prop) {
+      if (!obj[prop]) {
+        obj[prop] = {
+          ServerE: new EventEmitter(),
+          ClientE: new EventEmitter(),
+        }
+      }
+      return obj[prop]
+    },
+    deleteProperty: function(obj, prop) {
+      obj[prop] = undefined
+      return true
+    },
+  }
+)
 
 export class Client {
   id: string
   emitter: any
+  ServerE: EventEmitter | undefined
+  ClientE: EventEmitter | undefined
   constructor(id: string) {
     this.id = id
+    let emt = Servers[id]
+    this.ServerE = emt.ServerE
+    this.ClientE = emt.ClientE
   }
   use<T = any>(emitter: () => Promise<T> | any) {
     this.emitter = emitter
@@ -44,53 +67,85 @@ export class Client {
     data: D,
     type: 'get' | 'post'
   ): Promise<T> {
-    let { emitter } = this
+    let { emitter, ServerE, ClientE } = this
     if (emitter) {
       this.emitter = void 0
       return emitter(data)
     }
     return await new Promise((res) => {
+      if (!ServerE || !ClientE) return res()
+      let serverEvName = `${type}+${server}+${path}`
+      let hasServer =
+        ServerE.eventNames().findIndex((v) => v === serverEvName) > -1
+      if (!hasServer) return res(void 0)
       ClientE.once(`${type}+client+${server}+${path}`, (resData) => {
         res(resData)
       })
-      ServerE.emit(`${type}+${server}+${path}`, data)
+      ServerE.emit(serverEvName, data)
     })
   }
 }
-
+type Event = {
+  path: string
+  eid: number
+  type: 'get' | 'post'
+}
 export class Server {
   id: string
-  events: any[]
+  events: Event[]
+  private ServerE: EventEmitter | undefined
+  private ClientE: EventEmitter | undefined
   constructor(id: string) {
     this.id = id
     this.events = []
-    Servers[`server+${id}`] = true
+    let emt = Servers[id]
+    this.ServerE = emt.ServerE
+    this.ClientE = emt.ClientE
   }
-  prefixing(type: 'post' | 'get', path: string) {
+  private prefixing(type: 'post' | 'get', path: string) {
     return `${type}+${this.id}+${path}`
   }
+  private run<T>(
+    type: 'get' | 'post',
+    path: string,
+    callback: (data: T) => void
+  ) {
+    let serverName = this.prefixing(type, path)
+    let clientName = `${type}+client+${this.id}+${path}`
+    let eid = this.events.length
+    this.events.push({
+      path,
+      eid,
+      type,
+    })
+    this.ServerE &&
+      this.ServerE.on(serverName, async (body) => {
+        if (callback) {
+          let res = await callback(body)
+          this.ClientE && this.ClientE.emit(clientName, res)
+        }
+      })
+    return eid
+  }
   onGet<T = any>({ path }: { path: string }, callback: (data: T) => void) {
-    this.run<T>('get', path, callback)
+    return this.run<T>('get', path, callback)
   }
   onPost<T = any>({ path }: { path: string }, callback: (data: T) => void) {
-    this.run<T>('post', path, callback)
-  }
-  run<T>(type: 'get' | 'post', path: string, callback: (data: T) => void) {
-    let name = this.prefixing(type, path)
-    this.events.push(name)
-    ServerE.on(name, async (body) => {
-      if (callback) {
-        let res = await callback(body)
-        ClientE.emit(`${type}+client+${this.id}+${path}`, res)
-      }
-    })
+    return this.run<T>('post', path, callback)
   }
   remove(type: 'get' | 'post', path: string) {
     let name = this.prefixing(type, path)
-    ServerE.removeListener(name)
+    this.ServerE && this.ServerE.removeListener(name)
+  }
+  off(eid: number) {
+    let { path, type } = this.events.find((e) => e.eid === eid) || {}
+    type && path && this.remove(type, path)
   }
   close() {
-    Servers[`server+${this.id}`] = false
-    this.events.forEach((name) => ServerE.removeListener(name))
+    delete Servers[this.id]
+    this.events.forEach(({ path }) => {
+      this.remove('get', path)
+      this.remove('post', path)
+    })
   }
 }
