@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3'
-
+var channel = 0
 const Servers: {
   [key: string]: {
     ServerE: EventEmitter
@@ -88,10 +88,14 @@ export class Client {
       let hasServer =
         ServerE.eventNames().findIndex((v) => v === serverEvName) > -1
       if (!hasServer) return res(void 0)
-      ClientE.once(`${type}+client+${server}+${path}`, (resData) => {
-        res(resData)
-      })
-      ServerE.emit(serverEvName, data)
+      let thisChannel = channel++
+      ClientE.once(
+        `${type}+client+${server}+${path}:${thisChannel}`,
+        (resData) => {
+          res(resData)
+        }
+      )
+      ServerE.emit(serverEvName, { data, channel: thisChannel })
     })
   }
 }
@@ -129,10 +133,10 @@ export class Server {
       type,
     })
     this.ServerE &&
-      this.ServerE.on(serverName, async (body) => {
+      this.ServerE.on(serverName, async ({ data, channel }) => {
         if (callback) {
-          let res = await callback(body)
-          this.ClientE && this.ClientE.emit(clientName, res)
+          let res = await callback(data)
+          this.ClientE && this.ClientE.emit(clientName + ':' + channel, res)
         }
       })
     return eid

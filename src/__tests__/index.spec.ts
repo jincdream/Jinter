@@ -211,7 +211,7 @@ describe(`Greeter`, () => {
     const mockFn2 = jest.fn()
     const ID = 'aw1dw'
     const server = new Server(ID)
-    const server2 = new Server(ID+ID)
+    const server2 = new Server(ID + ID)
     const client = new Client()
     const client2 = new Client(ID)
 
@@ -238,7 +238,7 @@ describe(`Greeter`, () => {
 
     let result2 = await client.get({
       path: '/test/server2',
-      server: ID+ID,
+      server: ID + ID,
       data: { a: 222 },
     })
 
@@ -248,11 +248,36 @@ describe(`Greeter`, () => {
     expect(result2).toEqual({ a: 222 })
 
     let result3 = await client2.get({
-      path: "/test",
+      path: '/test',
       data: { a: 333 },
     })
     expect(mockFn).toBeCalledTimes(2)
     expect(mockFn).toHaveBeenCalledWith({ a: 333 })
     expect(result3).toEqual({ a: 333 })
+  })
+
+  it(`concurrent`, async () => {
+    const mockFn = jest.fn()
+    const ID = 'ccc'
+    const server = new Server(ID)
+    const client = new Client()
+
+    server.onGet({path: "/get/data"}, async (param)=>{
+      mockFn()
+      return param
+    })
+
+    let [r1,r2,r3] = await Promise.all([
+      client.get({server: ID, path: "/get/data", data: { id: 1 } }),
+      client.get({server: ID, path: "/get/data", data: { id: 2 } }),
+      client.get({server: ID, path: "/get/data", data: { id: 3 } })
+    ])
+    
+    expect(mockFn).toBeCalled()
+    expect(mockFn).toBeCalledTimes(3)
+    expect(r1).toEqual({ id: 1 })
+    expect(r2).toEqual({ id: 2 })
+    expect(r3).toEqual({ id: 3 })
+
   })
 })
