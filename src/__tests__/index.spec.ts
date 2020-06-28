@@ -296,6 +296,55 @@ describe(`Greeter`, () => {
     expect(mockFnPost).toBeCalledTimes(4)
     expect(mockFnPost2).toBeCalledTimes(4)
   })
+  it(`off api: remove`, async () => {
+    const mockFnPost = jest.fn()
+    const mockFnPost2 = jest.fn()
+    const ID = 'off3'
+    const server = new Server(ID)
+    const client = new Client(ID)
+    let postID = server.onPost({ path: '/test' }, async (data) =>
+      mockFnPost(data)
+    )
+    let postID2 = server.onPost({ path: '/test' }, async (data) =>
+      mockFnPost2(data)
+    )
+    const trigger = async function() {
+      let POSTResult = await client.post({
+        path: '/test',
+        server: ID,
+        body: { a: 123 },
+      })
+      return { POSTResult }
+    }
+    let { POSTResult } = await trigger()
+
+    expect(POSTResult).toBeUndefined()
+    expect(mockFnPost).toBeCalled()
+    expect(mockFnPost2).toBeCalled()
+    expect(mockFnPost).toBeCalledTimes(1)
+    expect(mockFnPost2).toBeCalledTimes(1)
+    expect(mockFnPost).toHaveBeenCalledWith({ a: 123 })
+    expect(mockFnPost2).toHaveBeenCalledWith({ a: 123 })
+
+    server.off(postID, true)
+    await trigger()
+    expect(mockFnPost).toBeCalledTimes(1)
+    expect(mockFnPost2).toBeCalledTimes(2)
+
+    server.off(postID2, true)
+    await trigger()
+    expect(mockFnPost).toBeCalledTimes(1)
+    expect(mockFnPost2).toBeCalledTimes(2)
+
+    await trigger()
+    expect(mockFnPost).toBeCalledTimes(1)
+    expect(mockFnPost2).toBeCalledTimes(2)
+
+    server.on(postID2)
+    await trigger()
+    expect(mockFnPost).toBeCalledTimes(1)
+    expect(mockFnPost2).toBeCalledTimes(2)
+  })
   it(`two server`, async () => {
     const mockFn = jest.fn()
     const mockFn2 = jest.fn()

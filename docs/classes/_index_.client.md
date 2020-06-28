@@ -32,7 +32,7 @@
 
 \+ **new Client**(`id?`: undefined | string): *[Client](_index_.client.md)*
 
-*Defined in [index.ts:31](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L31)*
+*Defined in [index.ts:31](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L31)*
 
 **Parameters:**
 
@@ -48,7 +48,7 @@ Name | Type |
 
 • **ClientE**? : *EventEmitter*
 
-*Defined in [index.ts:31](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L31)*
+*Defined in [index.ts:31](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L31)*
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 • **ServerE**? : *EventEmitter*
 
-*Defined in [index.ts:30](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L30)*
+*Defined in [index.ts:30](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L30)*
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 • **emitter**: *any*
 
-*Defined in [index.ts:29](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L29)*
+*Defined in [index.ts:29](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L29)*
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 • **id**? : *undefined | string*
 
-*Defined in [index.ts:28](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L28)*
+*Defined in [index.ts:28](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L28)*
 
 ## Methods
 
@@ -80,7 +80,7 @@ ___
 
 ▸ **get**‹**T**, **D**›(`__namedParameters`: object): *Promise‹T›*
 
-*Defined in [index.ts:44](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L44)*
+*Defined in [index.ts:44](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L44)*
 
 **Type parameters:**
 
@@ -106,7 +106,10 @@ ___
 
 ▸ **post**‹**T**, **D**›(`__namedParameters`: object): *Promise‹T›*
 
-*Defined in [index.ts:55](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L55)*
+*Defined in [index.ts:59](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L59)*
+
+**`todo`** 
+return a success or error flag
 
 **Type parameters:**
 
@@ -132,7 +135,7 @@ ___
 
 ▸ **run**‹**T**, **D**›(`path`: string, `data`: D, `type`: "get" | "post", `server?`: undefined | string): *Promise‹T›*
 
-*Defined in [index.ts:66](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L66)*
+*Defined in [index.ts:70](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L70)*
 
 **Type parameters:**
 
@@ -157,7 +160,7 @@ ___
 
 ▸ **use**‹**T**›(`emitter`: function): *this*
 
-*Defined in [index.ts:40](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L40)*
+*Defined in [index.ts:40](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L40)*
 
 **Type parameters:**
 

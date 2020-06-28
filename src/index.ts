@@ -52,6 +52,10 @@ export class Client {
   }) {
     return await this.run<T, D>(path, data, 'get', server)
   }
+  /**
+   * @TODO
+   * return a success or error flag
+   */
   async post<T = any, D = any>({
     server,
     path,
@@ -180,6 +184,10 @@ export class Server {
   ) {
     return this.run<T, R>('get', path, callback)
   }
+  /**
+   * @TODO
+   * return a success or error flag
+   */
   onPost<T = any, R = any>(
     { path }: { path: string },
     callback: (data: T) => Promise<R>
@@ -194,10 +202,13 @@ export class Server {
    * 关闭某一个监听
    * @param eid 事件id
    */
-  off(eid: number) {
-    this.events.forEach((e) => {
+  off(eid: number, remove?: boolean) {
+    this.events = this.events.filter((e) => {
       if (e.eid === eid) {
         e.off = true
+        return !remove
+      } else {
+        return true
       }
     })
     // type && path && this.remove(type, path)

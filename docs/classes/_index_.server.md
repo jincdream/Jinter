@@ -36,7 +36,7 @@
 
 \+ **new Server**(`id`: string): *[Server](_index_.server.md)*
 
-*Defined in [index.ts:118](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L118)*
+*Defined in [index.ts:122](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L122)*
 
 **Parameters:**
 
@@ -52,7 +52,7 @@ Name | Type |
 
 • **ClientE**: *EventEmitter*
 
-*Defined in [index.ts:118](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L118)*
+*Defined in [index.ts:122](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L122)*
 
 ___
 
@@ -60,7 +60,7 @@ ___
 
 • **ServerE**: *EventEmitter*
 
-*Defined in [index.ts:117](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L117)*
+*Defined in [index.ts:121](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L121)*
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 • **events**: *[Event](../modules/_index_.md#event)‹any, any›[]*
 
-*Defined in [index.ts:116](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L116)*
+*Defined in [index.ts:120](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L120)*
 
 ___
 
@@ -76,7 +76,7 @@ ___
 
 • **id**: *string*
 
-*Defined in [index.ts:115](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L115)*
+*Defined in [index.ts:119](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L119)*
 
 ## Methods
 
@@ -84,7 +84,7 @@ ___
 
 ▸ **close**(): *void*
 
-*Defined in [index.ts:216](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L216)*
+*Defined in [index.ts:227](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L227)*
 
 **Returns:** *void*
 
@@ -92,9 +92,9 @@ ___
 
 ###  off
 
-▸ **off**(`eid`: number): *void*
+▸ **off**(`eid`: number, `remove?`: undefined | false | true): *void*
 
-*Defined in [index.ts:197](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L197)*
+*Defined in [index.ts:205](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L205)*
 
 关闭某一个监听
 
@@ -103,6 +103,7 @@ ___
 Name | Type | Description |
 ------ | ------ | ------ |
 `eid` | number | 事件id  |
+`remove?` | undefined &#124; false &#124; true | - |
 
 **Returns:** *void*
 
@@ -112,7 +113,7 @@ ___
 
 ▸ **on**(`eid`: number): *void*
 
-*Defined in [index.ts:209](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L209)*
+*Defined in [index.ts:220](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L220)*
 
 开启某一个监听
 
@@ -130,7 +131,7 @@ ___
 
 ▸ **onGet**‹**T**, **R**›(`__namedParameters`: object, `callback`: function): *number*
 
-*Defined in [index.ts:177](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L177)*
+*Defined in [index.ts:181](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L181)*
 
 **Type parameters:**
 
@@ -164,7 +165,10 @@ ___
 
 ▸ **onPost**‹**T**, **R**›(`__namedParameters`: object, `callback`: function): *number*
 
-*Defined in [index.ts:183](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L183)*
+*Defined in [index.ts:191](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L191)*
+
+**`todo`** 
+return a success or error flag
 
 **Type parameters:**
 
@@ -198,7 +202,7 @@ ___
 
 ▸ **prefixing**(`type`: "post" | "get", `path`: string): *string*
 
-*Defined in [index.ts:126](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L126)*
+*Defined in [index.ts:130](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L130)*
 
 **Parameters:**
 
@@ -215,7 +219,7 @@ ___
 
 ▸ **remove**(`type`: "get" | "post", `path`: string): *void*
 
-*Defined in [index.ts:189](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L189)*
+*Defined in [index.ts:197](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L197)*
 
 **Parameters:**
 
@@ -232,7 +236,7 @@ ___
 
 ▸ **run**‹**T**, **R**›(`type`: "get" | "post", `path`: string, `callback`: function): *number*
 
-*Defined in [index.ts:129](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L129)*
+*Defined in [index.ts:133](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L133)*
 
 **Type parameters:**
 

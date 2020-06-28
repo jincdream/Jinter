@@ -24,7 +24,7 @@
 
 Ƭ **Event**: *object*
 
-*Defined in [index.ts:106](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L106)*
+*Defined in [index.ts:110](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L110)*
 
 #### Type declaration:
 
@@ -65,7 +65,7 @@
   }
 )
 
-*Defined in [index.ts:3](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L3)*
+*Defined in [index.ts:3](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L3)*
 
 #### Type declaration:
 
@@ -81,4 +81,4 @@ ___
 
 • **channel**: *number* = 0
 
-*Defined in [index.ts:2](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L2)*
+*Defined in [index.ts:2](https://github.com/jincdream/Jinter/blob/f3bd886/src/index.ts#L2)*
