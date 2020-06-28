@@ -85,7 +85,32 @@ describe(`Greeter`, () => {
     expect(mockFnGet).toBeCalledTimes(1)
     expect(mockFnPost).toBeCalledTimes(2)
   })
+  it(`remove api 2`, async () => {
+    const mockFnPost = jest.fn()
+    const mockFnPost1 = jest.fn()
+    const ID = 'remove2'
+    const server = new Server(ID)
+    const client = new Client(ID)
 
+    server.onPost({path: "/test"}, async (data)=> mockFnPost(data) )
+    server.onPost({path: "/test"}, async (data)=> mockFnPost1(data) )
+
+    await client.post({path: "/test", body: {a: 1}})
+    expect(mockFnPost).toBeCalled()
+    expect(mockFnPost1).toBeCalled()
+    expect(mockFnPost).toHaveBeenCalledWith({ a: 1 })
+    expect(mockFnPost1).toHaveBeenCalledWith({ a: 1 })
+    expect(mockFnPost).toBeCalledTimes(1)
+    expect(mockFnPost1).toBeCalledTimes(1)
+
+    server.remove("post", "/test")
+    await client.post({path: "/test", body: {a: 1}})
+    await client.post({path: "/test", body: {a: 1}})
+    await client.post({path: "/test", body: {a: 1}})
+    expect(mockFnPost).toBeCalledTimes(1)
+    expect(mockFnPost1).toBeCalledTimes(1)
+
+  })
   it(`close api`, async () => {
     const mockFnGet = jest.fn()
     const mockFnPost = jest.fn()
@@ -117,6 +142,11 @@ describe(`Greeter`, () => {
     expect(GETResult).toBeUndefined()
     expect(mockFnGet).toBeCalledTimes(0)
     expect(mockFnPost).toBeCalledTimes(0)
+
+    new Server(ID).onGet({ path: '/test' }, async (data) => {
+      mockFnGet(data)
+      return data
+    })
   })
 
   it(`off api`, async () => {
@@ -440,4 +470,6 @@ describe(`Greeter`, () => {
       )
     )
   })
+
+
 })

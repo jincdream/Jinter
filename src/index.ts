@@ -196,6 +196,9 @@ export class Server {
   }
   remove(type: 'get' | 'post', path: string) {
     let name = this.prefixing(type, path)
+    this.events = this.events.filter(
+      (v) => !(v.path === path && v.type === type)
+    )
     this.ServerE && this.ServerE.removeListener(name)
   }
   /**
