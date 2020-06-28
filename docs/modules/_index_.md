@@ -1,4 +1,4 @@
-[jinter](../globals.md) › ["index"](_index_.md)
+[jinter](../README.md) › [Globals](../globals.md) › ["index"](_index_.md)
 
 # Module: "index"
 
@@ -16,6 +16,7 @@
 ### Variables
 
 * [Servers](_index_.md#const-servers)
+* [channel](_index_.md#channel)
 
 ## Type aliases
 
@@ -23,13 +24,21 @@
 
 Ƭ **Event**: *object*
 
-*Defined in [index.ts:88](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L88)*
+*Defined in [index.ts:106](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L106)*
 
 #### Type declaration:
 
+* **callback**(): *function*
+
+  * (`data`: T): *Promise‹R›*
+
 * **eid**: *number*
 
+* **off**: *boolean*
+
 * **path**: *string*
+
+* **serverName**: *string*
 
 * **type**: *"get" | "post"*
 
@@ -56,7 +65,7 @@
   }
 )
 
-*Defined in [index.ts:3](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L3)*
+*Defined in [index.ts:3](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L3)*
 
 #### Type declaration:
 
@@ -65,3 +74,11 @@
 * **ClientE**: *EventEmitter*
 
 * **ServerE**: *EventEmitter*
+
+___
+
+###  channel
+
+• **channel**: *number* = 0
+
+*Defined in [index.ts:2](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L2)*

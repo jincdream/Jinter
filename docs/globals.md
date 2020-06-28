@@ -1,4 +1,4 @@
-[jinter](globals.md)
+[jinter](README.md) › [Globals](globals.md)
 
 # jinter
 

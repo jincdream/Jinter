@@ -1,4 +1,4 @@
-[jinter](../globals.md) › ["index"](../modules/_index_.md) › [Server](_index_.server.md)
+[jinter](../README.md) › [Globals](../globals.md) › ["index"](../modules/_index_.md) › [Server](_index_.server.md)
 
 # Class: Server
 
@@ -23,6 +23,7 @@
 
 * [close](_index_.server.md#close)
 * [off](_index_.server.md#off)
+* [on](_index_.server.md#on)
 * [onGet](_index_.server.md#onget)
 * [onPost](_index_.server.md#onpost)
 * [prefixing](_index_.server.md#private-prefixing)
@@ -35,7 +36,7 @@
 
 \+ **new Server**(`id`: string): *[Server](_index_.server.md)*
 
-*Defined in [index.ts:97](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L97)*
+*Defined in [index.ts:118](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L118)*
 
 **Parameters:**
 
@@ -49,25 +50,25 @@ Name | Type |
 
 ### `Private` ClientE
 
-• **ClientE**: *EventEmitter | undefined*
+• **ClientE**: *EventEmitter*
 
-*Defined in [index.ts:97](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L97)*
+*Defined in [index.ts:118](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L118)*
 
 ___
 
 ### `Private` ServerE
 
-• **ServerE**: *EventEmitter | undefined*
+• **ServerE**: *EventEmitter*
 
-*Defined in [index.ts:96](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L96)*
+*Defined in [index.ts:117](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L117)*
 
 ___
 
 ###  events
 
-• **events**: *[Event](../modules/_index_.md#event)[]*
+• **events**: *[Event](../modules/_index_.md#event)‹any, any›[]*
 
-*Defined in [index.ts:95](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L95)*
+*Defined in [index.ts:116](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L116)*
 
 ___
 
@@ -75,7 +76,7 @@ ___
 
 • **id**: *string*
 
-*Defined in [index.ts:94](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L94)*
+*Defined in [index.ts:115](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L115)*
 
 ## Methods
 
@@ -83,7 +84,7 @@ ___
 
 ▸ **close**(): *void*
 
-*Defined in [index.ts:144](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L144)*
+*Defined in [index.ts:216](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L216)*
 
 **Returns:** *void*
 
@@ -93,13 +94,33 @@ ___
 
 ▸ **off**(`eid`: number): *void*
 
-*Defined in [index.ts:140](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L140)*
+*Defined in [index.ts:197](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L197)*
+
+关闭某一个监听
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eid` | number |
+Name | Type | Description |
+------ | ------ | ------ |
+`eid` | number | 事件id  |
+
+**Returns:** *void*
+
+___
+
+###  on
+
+▸ **on**(`eid`: number): *void*
+
+*Defined in [index.ts:209](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L209)*
+
+开启某一个监听
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`eid` | number | 事件id  |
 
 **Returns:** *void*
 
@@ -107,13 +128,15 @@ ___
 
 ###  onGet
 
-▸ **onGet**‹**T**›(`__namedParameters`: object, `callback`: function): *number*
+▸ **onGet**‹**T**, **R**›(`__namedParameters`: object, `callback`: function): *number*
 
-*Defined in [index.ts:130](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L130)*
+*Defined in [index.ts:177](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L177)*
 
 **Type parameters:**
 
 ▪ **T**
+
+▪ **R**
 
 **Parameters:**
 
@@ -125,7 +148,7 @@ Name | Type |
 
 ▪ **callback**: *function*
 
-▸ (`data`: T): *void*
+▸ (`data`: T): *Promise‹R›*
 
 **Parameters:**
 
@@ -139,13 +162,15 @@ ___
 
 ###  onPost
 
-▸ **onPost**‹**T**›(`__namedParameters`: object, `callback`: function): *number*
+▸ **onPost**‹**T**, **R**›(`__namedParameters`: object, `callback`: function): *number*
 
-*Defined in [index.ts:133](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L133)*
+*Defined in [index.ts:183](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L183)*
 
 **Type parameters:**
 
 ▪ **T**
+
+▪ **R**
 
 **Parameters:**
 
@@ -157,7 +182,7 @@ Name | Type |
 
 ▪ **callback**: *function*
 
-▸ (`data`: T): *void*
+▸ (`data`: T): *Promise‹R›*
 
 **Parameters:**
 
@@ -173,7 +198,7 @@ ___
 
 ▸ **prefixing**(`type`: "post" | "get", `path`: string): *string*
 
-*Defined in [index.ts:105](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L105)*
+*Defined in [index.ts:126](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L126)*
 
 **Parameters:**
 
@@ -190,7 +215,7 @@ ___
 
 ▸ **remove**(`type`: "get" | "post", `path`: string): *void*
 
-*Defined in [index.ts:136](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L136)*
+*Defined in [index.ts:189](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L189)*
 
 **Parameters:**
 
@@ -205,13 +230,15 @@ ___
 
 ### `Private` run
 
-▸ **run**‹**T**›(`type`: "get" | "post", `path`: string, `callback`: function): *number*
+▸ **run**‹**T**, **R**›(`type`: "get" | "post", `path`: string, `callback`: function): *number*
 
-*Defined in [index.ts:108](https://github.com/jincdream/Jinter/blob/bc0c789/src/index.ts#L108)*
+*Defined in [index.ts:129](https://github.com/jincdream/Jinter/blob/1459b97/src/index.ts#L129)*
 
 **Type parameters:**
 
 ▪ **T**
+
+▪ **R**
 
 **Parameters:**
 
@@ -221,7 +248,7 @@ ___
 
 ▪ **callback**: *function*
 
-▸ (`data`: T): *void*
+▸ (`data`: T): *Promise‹R›*
 
 **Parameters:**
 
